@@ -1,20 +1,15 @@
 using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 
 namespace VerbsSampleApp
 {
-    public class UserInterface
+    public class Debugger
     {
         [Export(Verbs.CompositePrint)]
         public void Print(string message)
         {
-            Console.WriteLine(message);
-        }
-
-        [Export(Verbs.Read)]
-        public string Read()
-        {
-            return Console.ReadLine();
+            Debug.WriteLine(DateTime.Now + " - " + message);
         }
     }
 }

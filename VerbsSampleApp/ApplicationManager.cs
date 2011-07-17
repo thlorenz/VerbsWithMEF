@@ -1,23 +1,34 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 namespace VerbsSampleApp
 {
     public class ApplicationManager
     {
-        private readonly Action<string> _print;
+        private readonly IEnumerable<Action<string>> _printToMany;
 
         [ImportingConstructor]
-        public ApplicationManager([Import(Verbs.Print)] Action<string> print)
+        public ApplicationManager(
+            [ImportMany(Verbs.CompositePrint, AllowRecomposition = true)] IEnumerable<Action<string>> printToMany)
         {
-            _print = print;
+            _printToMany = printToMany;
         }
 
         [Export(Verbs.Shutdown)]
         public void ShutDownApplication(int code)
         {
-            _print("Shutting down ....");
+            ApplicationPrint("Shutting down ....");
             Environment.Exit(code);
+        }
+
+        [Export(Verbs.Print)]
+        public void ApplicationPrint(string msg)
+        {
+            foreach (var print in _printToMany)
+            {
+                print(msg);
+            }
         }
     }
 }

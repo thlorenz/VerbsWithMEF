@@ -30,6 +30,11 @@ namespace VerbsSampleApp
             _shutDown(0);
         }
 
+        private void PrintStartupInfo()
+        {
+            _print("The super verbs application has started.");
+        }
+
         private void InteractWithUser()
         {
             _print("Please enter your name: ");
@@ -39,12 +44,7 @@ namespace VerbsSampleApp
             _print("Hello " + name);
             _print("Please press enter to shut down");
 
-             _read();
-        }
-
-        private void PrintStartupInfo()
-        {
-            _print("The super verbs application has started.");
+            _read();
         }
     }
 }
